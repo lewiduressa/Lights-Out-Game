@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Lights Out</title>
+   <style>
+      body {
+         background-color: rgb(172, 234, 172);
+      }
+
+      div>div {
+         width: 3rem;
+         height: 3rem;
+         background-color: black;
+      }
+
+      div>div:hover {
+         cursor: pointer;
+      }
+
+      #container {
+         width: 9.5rem;
+         height: 9.5rem;
+         background-color: rgb(234, 234, 234);
+         display: flex;
+         flex-flow: row wrap;
+         justify-content: space-between;
+         align-content: space-between;
+      }
+
+      #btn {
+         width: 5rem;
+         height: 2rem;
+         margin-top: 1rem;
+      }
+   </style>
+</head>
+
+<body>
+   <div id="container">
+      <div id="0"></div>
+      <div id="1"></div>
+      <div id="2"></div>
+      <div id="3"></div>
+      <div id="4"></div>
+      <div id="5"></div>
+      <div id="6"></div>
+      <div id="7"></div>
+      <div id="8"></div>
+   </div>
+   <button id="btn">Solve</button>
+
+   <script>
+      let d = [];
+      let clickHistory = [];
+      for (let i = 0; i < 9; i++) {
+         d[i] = document.getElementById(i + "");
+         d[i].style.backgroundColor = "black";
+         d[i].onclick = () => {
+            clickHistory.push(i);
+            switchDiv(i);
+         };
+      }
+
+      for (let i = 0; i < 10; i++) {
+         let n = Math.floor(Math.random()*9);
+         clickHistory.push(n);
+         switchDiv(n);
+      }
+
+      function switchDiv(i) {
+         switch (i) {
+            case 0: {
+               toggle(d[0]);
+               toggle(d[1]);
+               toggle(d[3]);
+               break;
+            }
+            case 1: {
+               toggle(d[0]);
+               toggle(d[1]);
+               toggle(d[2]);
+               toggle(d[4]);
+               break;
+            }
+            case 2: {
+               toggle(d[1]);
+               toggle(d[2]);
+               toggle(d[5]);
+               break;
+            }
+            case 3: {
+               toggle(d[3]);
+               toggle(d[0]);
+               toggle(d[4]);
+               toggle(d[6]);
+               break;
+            }
+            case 4: {
+               toggle(d[3]);
+               toggle(d[1]);
+               toggle(d[4]);
+               toggle(d[5]);
+               toggle(d[7]);
+               break;
+            }
+            case 5: {
+               toggle(d[5]);
+               toggle(d[2]);
+               toggle(d[4]);
+               toggle(d[8]);
+               break;
+            }
+            case 6: {
+               toggle(d[6]);
+               toggle(d[7]);
+               toggle(d[3]);
+               break;
+            }
+            case 7: {
+               toggle(d[6]);
+               toggle(d[8]);
+               toggle(d[7]);
+               toggle(d[4]);
+               break;
+            }
+            case 8: {
+               toggle(d[5]);
+               toggle(d[7]);
+               toggle(d[8]);
+               break;
+            }
+         }
+      }
+      function toggle(e) {
+         if (e.style.backgroundColor === "black") e.style.backgroundColor = "yellow"; else e.style.backgroundColor = "black";
+      }
+
+      let btn = document.getElementById("btn");
+      btn.onclick = () => {
+         let timerID = setInterval(function () {
+            if (clickHistory.length > 0) {
+               let cd = clickHistory.pop();
+               switchDiv(cd);
+            } else {
+               clearInterval(timerID);
+            }
+         }, 500);
+      };
+   </script>
+</body>
+
+</html>
